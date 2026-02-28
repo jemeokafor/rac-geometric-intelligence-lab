@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAC + Geometric Intelligence Lab</title>
+  <style>
+    :root { --bg:#0b1020; --card:#121a33; --text:#e8ecff; --muted:#9fb0ff; --accent:#6ea8fe; --ok:#5dd39e; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#0b1020,#121a33);color:var(--text)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    h1,h2{margin:0 0 12px} p{line-height:1.5;color:#dbe3ff}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+    .card{background:rgba(18,26,51,.9);border:1px solid #2a3b77;border-radius:14px;padding:16px}
+    .pill{display:inline-block;background:#223263;padding:4px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+    button,select,input{background:#1a2751;color:var(--text);border:1px solid #3653a5;border-radius:10px;padding:10px 12px}
+    button{cursor:pointer}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    canvas{width:100%;height:280px;background:#0a132f;border:1px solid #304a9a;border-radius:12px}
+    .good{color:var(--ok)} .muted{color:var(--muted)}
+    .steps li{margin:8px 0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>RAC + Geometric Intelligence Lab</h1>
+    <p class="muted">Learn by doing: map problems as shapes, find friction, choose higher-agency moves.</p>
+
+    <div class="grid" style="margin-top:16px">
+      <section class="card">
+        <span class="pill">Module 1</span>
+        <h2>RAC Core</h2>
+        <p><b>RAC</b> = Reciprocal Agency Codex: make moves that increase agency (yours + others), reduce manipulation, and stay reversible.</p>
+        <ul class="steps">
+          <li><b>Map</b> the situation clearly.</li>
+          <li><b>Gate</b> with ethics + risk.</li>
+          <li><b>Execute</b> smallest high-leverage step.</li>
+          <li><b>Verify</b> with evidence.</li>
+          <li><b>Log</b> lessons.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <span class="pill">Module 2</span>
+        <h2>Quick Scenario Trainer</h2>
+        <p>Pick a scenario and evaluate choices by agency score.</p>
+        <div class="row">
+          <select id="scenario"></select>
+          <button id="evaluate">Evaluate Moves</button>
+        </div>
+        <div id="scenarioOut" style="margin-top:10px"></div>
+      </section>
+
+      <section class="card" style="grid-column:1/-1">
+        <span class="pill">Module 3</span>
+        <h2>Geometric Intelligence Sandbox</h2>
+        <p>Model a problem as vectors. Friction = opposing vectors. Vacuum = under-defended direction.</p>
+        <div class="row">
+          <label>Strategy angle <input id="angle" type="range" min="0" max="360" value="45" /></label>
+          <label>Force <input id="force" type="range" min="10" max="100" value="70" /></label>
+          <button id="recalc">Recalculate</button>
+        </div>
+        <canvas id="geo" width="1000" height="280"></canvas>
+        <p id="geoOut" class="muted"></p>
+      </section>
+
+      <section class="card">
+        <span class="pill">Applications</span>
+        <h2>Business</h2>
+        <p>Use RAC + geometry to pick go-to-market paths: reduce dependency, maximize control, choose reversible launches.</p>
+      </section>
+      <section class="card">
+        <span class="pill">Applications</span>
+        <h2>Product</h2>
+        <p>Prioritize features by agency impact, user trust, and operational friction removal.</p>
+      </section>
+      <section class="card">
+        <span class="pill">Applications</span>
+        <h2>Leadership</h2>
+        <p>Design decisions that increase team autonomy and maintain ethical constraints.</p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const scenarios = [
+      {
+        name: 'Launch pressure: ship fast vs safe',
+        moves: [
+          ['Skip tests to hit deadline', 2],
+          ['Ship minimal scope + rollback plan', 9],
+          ['Delay forever for perfect quality', 4]
+        ]
+      },
+      {
+        name: 'Client asks for manipulative dark pattern',
+        moves: [
+          ['Implement as asked', 1],
+          ['Offer ethical alternative + expected ROI', 9],
+          ['Refuse without explanation', 5]
+        ]
+      },
+      {
+        name: 'Team overloaded with tasks',
+        moves: [
+          ['Add more tasks, hope for best', 2],
+          ['Cap WIP, prioritize top 1-2 outcomes', 9],
+          ['Pause all projects', 4]
+        ]
+      }
+    ];
+
+    const scenarioSel = document.getElementById('scenario');
+    scenarios.forEach((s,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=s.name; scenarioSel.appendChild(o); });
+
+    document.getElementById('evaluate').onclick = () => {
+      const s = scenarios[Number(scenarioSel.value)];
+      const ranked = [...s.moves].sort((a,b)=>b[1]-a[1]);
+      document.getElementById('scenarioOut').innerHTML = ranked.map((m,idx)=>`<div>${idx+1}. ${m[0]} — <b class="${m[1]>=8?'good':'muted'}">Agency ${m[1]}/10</b></div>`).join('');
+    };
+
+    const canvas = document.getElementById('geo');
+    const ctx = canvas.getContext('2d');
+    const out = document.getElementById('geoOut');
+
+    function drawVec(x,y,ang,len,color,label){
+      const r = ang * Math.PI / 180;
+      const x2 = x + Math.cos(r)*len;
+      const y2 = y - Math.sin(r)*len;
+      ctx.strokeStyle=color; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x2,y2); ctx.stroke();
+      ctx.fillStyle=color; ctx.fillText(label, x2+4, y2+4);
+    }
+
+    function recalc(){
+      const angle = Number(document.getElementById('angle').value);
+      const force = Number(document.getElementById('force').value);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle='#9fb0ff'; ctx.font='16px sans-serif';
+      const cx=180, cy=180;
+      drawVec(cx,cy,20,90,'#ff7f7f','Market friction');
+      drawVec(cx,cy,160,70,'#ffd166','Resource friction');
+      drawVec(cx,cy,300,60,'#f497ff','Policy friction');
+      drawVec(cx,cy,angle,force*1.6,'#5dd39e','Your strategy');
+      const fit = 100 - Math.min(100, Math.abs(angle-240));
+      out.textContent = `Signal: Strategy heading ${angle}° with force ${force}. Estimated vacuum-fit score: ${fit}/100. Better fit = less resistance and faster execution.`;
+    }
+
+    document.getElementById('recalc').onclick = recalc;
+    recalc();
+  </script>
+</body>
+</html>
