@@ -3,149 +3,266 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RAC + Geometric Intelligence Lab</title>
+  <title>RAC + Geometric Intelligence Lab — V2</title>
   <style>
-    :root { --bg:#0b1020; --card:#121a33; --text:#e8ecff; --muted:#9fb0ff; --accent:#6ea8fe; --ok:#5dd39e; }
-    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#0b1020,#121a33);color:var(--text)}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    h1,h2{margin:0 0 12px} p{line-height:1.5;color:#dbe3ff}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-    .card{background:rgba(18,26,51,.9);border:1px solid #2a3b77;border-radius:14px;padding:16px}
-    .pill{display:inline-block;background:#223263;padding:4px 10px;border-radius:999px;color:var(--muted);font-size:12px}
-    button,select,input{background:#1a2751;color:var(--text);border:1px solid #3653a5;border-radius:10px;padding:10px 12px}
-    button{cursor:pointer}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    canvas{width:100%;height:280px;background:#0a132f;border:1px solid #304a9a;border-radius:12px}
-    .good{color:var(--ok)} .muted{color:var(--muted)}
-    .steps li{margin:8px 0}
+    :root {
+      --bg: #070b17;
+      --panel: #101935;
+      --soft: #1a2852;
+      --line: #304a9a;
+      --text: #eaf0ff;
+      --muted: #a8b9ff;
+      --accent: #73b6ff;
+      --good: #52d39b;
+      --warn: #ffcf6e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 10%, #1c2a56 0%, #070b17 45%, #05070f 100%);
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 24px; }
+    h1, h2, h3 { margin: 0 0 10px; }
+    p { margin: 0 0 10px; color: #d8e2ff; line-height: 1.5; }
+    .muted { color: var(--muted); }
+    .top {
+      display: grid; gap: 14px; grid-template-columns: 1.5fr 1fr;
+      align-items: stretch;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(16,25,53,.96), rgba(12,19,41,.96));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+    .pill { display:inline-block; padding:4px 10px; border-radius:999px; background:#22376d; color:#c8d8ff; font-size:12px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-top:14px; }
+    button, select, input {
+      background: var(--soft);
+      color: var(--text);
+      border: 1px solid #3c5fbf;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    button { cursor:pointer; }
+    canvas {
+      width: 100%;
+      height: 300px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #08112c;
+    }
+    .kpi {
+      display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+    }
+    .kpi .tile {
+      background: rgba(32,50,98,.65);
+      border:1px solid #3a58ae;
+      border-radius:10px;
+      padding:10px;
+    }
+    .score { font-weight: 700; font-size: 24px; color: var(--good); }
+    .warn { color: var(--warn); }
+    ul { margin: 8px 0 0 18px; padding: 0; }
+    li { margin: 6px 0; }
+    .tabbar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 0; }
+    .tab { padding:8px 12px; border-radius:999px; border:1px solid #4063c7; background:#15244d; }
+    .tab.active { background:#26438c; }
+    .hidden { display: none; }
+    .footer { margin-top: 16px; color: #9eb2ff; font-size: 14px; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>RAC + Geometric Intelligence Lab</h1>
-    <p class="muted">Learn by doing: map problems as shapes, find friction, choose higher-agency moves.</p>
-
-    <div class="grid" style="margin-top:16px">
+    <div class="top">
       <section class="card">
-        <span class="pill">Module 1</span>
-        <h2>RAC Core</h2>
-        <p><b>RAC</b> = Reciprocal Agency Codex: make moves that increase agency (yours + others), reduce manipulation, and stay reversible.</p>
-        <ul class="steps">
-          <li><b>Map</b> the situation clearly.</li>
-          <li><b>Gate</b> with ethics + risk.</li>
-          <li><b>Execute</b> smallest high-leverage step.</li>
-          <li><b>Verify</b> with evidence.</li>
-          <li><b>Log</b> lessons.</li>
-        </ul>
-      </section>
-
-      <section class="card">
-        <span class="pill">Module 2</span>
-        <h2>Quick Scenario Trainer</h2>
-        <p>Pick a scenario and evaluate choices by agency score.</p>
-        <div class="row">
-          <select id="scenario"></select>
-          <button id="evaluate">Evaluate Moves</button>
+        <span class="pill">ForgeFlow Lesson Site • V2</span>
+        <h1>RAC + Geometric Intelligence Lab</h1>
+        <p>Learn decision-making like an operator: map reality, find friction, pick reversible high-agency moves, and verify with evidence.</p>
+        <div class="tabbar" id="tabs">
+          <button class="tab active" data-tab="rac">RAC Fundamentals</button>
+          <button class="tab" data-tab="trainer">Scenario Trainer</button>
+          <button class="tab" data-tab="geometry">Geometry Sandbox</button>
+          <button class="tab" data-tab="missions">Applied Missions</button>
         </div>
-        <div id="scenarioOut" style="margin-top:10px"></div>
       </section>
 
-      <section class="card" style="grid-column:1/-1">
-        <span class="pill">Module 3</span>
-        <h2>Geometric Intelligence Sandbox</h2>
-        <p>Model a problem as vectors. Friction = opposing vectors. Vacuum = under-defended direction.</p>
-        <div class="row">
-          <label>Strategy angle <input id="angle" type="range" min="0" max="360" value="45" /></label>
-          <label>Force <input id="force" type="range" min="10" max="100" value="70" /></label>
-          <button id="recalc">Recalculate</button>
+      <section class="card">
+        <h2>Progress</h2>
+        <div class="kpi">
+          <div class="tile">
+            <div class="muted">Lessons completed</div>
+            <div class="score" id="kpiLessons">0</div>
+          </div>
+          <div class="tile">
+            <div class="muted">Quiz score</div>
+            <div class="score" id="kpiQuiz">0%</div>
+          </div>
+          <div class="tile">
+            <div class="muted">Strategy fit</div>
+            <div class="score" id="kpiFit">0</div>
+          </div>
+          <div class="tile">
+            <div class="muted">Status</div>
+            <div class="score" id="kpiStatus">Learning</div>
+          </div>
         </div>
-        <canvas id="geo" width="1000" height="280"></canvas>
-        <p id="geoOut" class="muted"></p>
-      </section>
-
-      <section class="card">
-        <span class="pill">Applications</span>
-        <h2>Business</h2>
-        <p>Use RAC + geometry to pick go-to-market paths: reduce dependency, maximize control, choose reversible launches.</p>
-      </section>
-      <section class="card">
-        <span class="pill">Applications</span>
-        <h2>Product</h2>
-        <p>Prioritize features by agency impact, user trust, and operational friction removal.</p>
-      </section>
-      <section class="card">
-        <span class="pill">Applications</span>
-        <h2>Leadership</h2>
-        <p>Design decisions that increase team autonomy and maintain ethical constraints.</p>
+        <p class="footer">Progress auto-saves in your browser.</p>
       </section>
     </div>
+
+    <section class="grid" id="tab-rac">
+      <article class="card">
+        <h2>RAC in one line</h2>
+        <p><b>Reciprocal Agency Codex</b>: maximize agency, minimize coercion, preserve reversibility.</p>
+      </article>
+      <article class="card">
+        <h2>Operating loop</h2>
+        <ol>
+          <li><b>Map</b> what is true right now.</li>
+          <li><b>Gate</b> for ethics and risk.</li>
+          <li><b>Execute</b> smallest high-leverage move.</li>
+          <li><b>Verify</b> with real evidence.</li>
+          <li><b>Log</b> lessons into the system.</li>
+        </ol>
+      </article>
+      <article class="card">
+        <h2>Micro Quiz</h2>
+        <p>Which move is most RAC-aligned in a high-pressure release?</p>
+        <div class="row">
+          <button class="q" data-score="0">Skip tests and ship blind</button>
+          <button class="q" data-score="1">Ship small + rollback + monitor</button>
+          <button class="q" data-score="0">Delay forever for perfection</button>
+        </div>
+        <p id="quizOut" class="muted" style="margin-top:8px">Select an answer.</p>
+      </article>
+    </section>
+
+    <section class="grid hidden" id="tab-trainer">
+      <article class="card" style="grid-column:1/-1">
+        <h2>Scenario Trainer</h2>
+        <p>Pick a scenario and see actions ranked by agency score.</p>
+        <div class="row">
+          <select id="scenario"></select>
+          <button id="evaluate">Evaluate</button>
+        </div>
+        <div id="scenarioOut" style="margin-top:10px"></div>
+      </article>
+    </section>
+
+    <section class="grid hidden" id="tab-geometry">
+      <article class="card" style="grid-column:1/-1">
+        <h2>Geometric Sandbox</h2>
+        <p>Rotate your strategy vector. Better alignment with the “vacuum” means less resistance.</p>
+        <div class="row">
+          <label>Angle <input id="angle" type="range" min="0" max="360" value="45"/></label>
+          <label>Force <input id="force" type="range" min="10" max="100" value="70"/></label>
+          <button id="recalc">Recalculate</button>
+        </div>
+        <canvas id="geo" width="1100" height="300"></canvas>
+        <p id="geoOut" class="muted"></p>
+      </article>
+    </section>
+
+    <section class="grid hidden" id="tab-missions">
+      <article class="card">
+        <h2>Mission: Product</h2>
+        <p>Reduce onboarding drop-off by 20% using reversible experiments and no dark patterns.</p>
+        <button class="complete">Mark Complete</button>
+      </article>
+      <article class="card">
+        <h2>Mission: Leadership</h2>
+        <p>Replace command-and-control with explicit decision rights + escalation rules.</p>
+        <button class="complete">Mark Complete</button>
+      </article>
+      <article class="card">
+        <h2>Mission: Strategy</h2>
+        <p>Choose one 7-day experiment that increases sovereignty and reduces dependency.</p>
+        <button class="complete">Mark Complete</button>
+      </article>
+    </section>
   </div>
 
   <script>
+    const state = JSON.parse(localStorage.getItem('rac-v2-progress') || '{"lessons":0,"quiz":0,"fit":0}');
+    const save = ()=>localStorage.setItem('rac-v2-progress', JSON.stringify(state));
+
+    function renderKpis(){
+      document.getElementById('kpiLessons').textContent = state.lessons;
+      document.getElementById('kpiQuiz').textContent = `${Math.round(state.quiz*100)}%`;
+      document.getElementById('kpiFit').textContent = String(Math.round(state.fit));
+      document.getElementById('kpiStatus').textContent = state.lessons >= 3 ? 'Operator-ready' : 'Learning';
+    }
+
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(btn=>btn.onclick=()=>{
+      tabs.forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      ['rac','trainer','geometry','missions'].forEach(id=>document.getElementById(`tab-${id}`).classList.add('hidden'));
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.q').forEach(b=>b.onclick=()=>{
+      const good = b.dataset.score === '1';
+      state.quiz = good ? 1 : 0.3;
+      if(good) state.lessons = Math.max(state.lessons, 1);
+      document.getElementById('quizOut').innerHTML = good ? '<span style="color:#52d39b">Correct. Reversible controlled release wins.</span>' : '<span class="warn">Not ideal. Try the reversible move.</span>';
+      save(); renderKpis();
+    });
+
     const scenarios = [
-      {
-        name: 'Launch pressure: ship fast vs safe',
-        moves: [
-          ['Skip tests to hit deadline', 2],
-          ['Ship minimal scope + rollback plan', 9],
-          ['Delay forever for perfect quality', 4]
-        ]
-      },
-      {
-        name: 'Client asks for manipulative dark pattern',
-        moves: [
-          ['Implement as asked', 1],
-          ['Offer ethical alternative + expected ROI', 9],
-          ['Refuse without explanation', 5]
-        ]
-      },
-      {
-        name: 'Team overloaded with tasks',
-        moves: [
-          ['Add more tasks, hope for best', 2],
-          ['Cap WIP, prioritize top 1-2 outcomes', 9],
-          ['Pause all projects', 4]
-        ]
-      }
+      {name:'Revenue pressure vs trust',moves:[['Use manipulative upsell flow',1],['Use clear offer + proof + opt-out',9],['Do nothing',3]]},
+      {name:'System outage under pressure',moves:[['Hide incident',1],['Acknowledge + rollback + root-cause',10],['Blame vendor publicly',2]]},
+      {name:'Too many parallel projects',moves:[['Start 5 more',1],['Set WIP limit and sequence',9],['Pause everything',4]]}
     ];
-
-    const scenarioSel = document.getElementById('scenario');
-    scenarios.forEach((s,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=s.name; scenarioSel.appendChild(o); });
-
-    document.getElementById('evaluate').onclick = () => {
-      const s = scenarios[Number(scenarioSel.value)];
-      const ranked = [...s.moves].sort((a,b)=>b[1]-a[1]);
-      document.getElementById('scenarioOut').innerHTML = ranked.map((m,idx)=>`<div>${idx+1}. ${m[0]} — <b class="${m[1]>=8?'good':'muted'}">Agency ${m[1]}/10</b></div>`).join('');
+    const sel = document.getElementById('scenario');
+    scenarios.forEach((s,i)=>{const o=document.createElement('option');o.value=i;o.textContent=s.name;sel.appendChild(o);});
+    document.getElementById('evaluate').onclick=()=>{
+      const s=scenarios[Number(sel.value)];
+      const ranked=[...s.moves].sort((a,b)=>b[1]-a[1]);
+      document.getElementById('scenarioOut').innerHTML = ranked.map((m,i)=>`${i+1}. ${m[0]} — <b style="color:${m[1]>=8?'#52d39b':'#a8b9ff'}">${m[1]}/10</b>`).join('<br>');
+      state.lessons = Math.max(state.lessons, 2);
+      save(); renderKpis();
     };
 
     const canvas = document.getElementById('geo');
     const ctx = canvas.getContext('2d');
     const out = document.getElementById('geoOut');
 
-    function drawVec(x,y,ang,len,color,label){
-      const r = ang * Math.PI / 180;
-      const x2 = x + Math.cos(r)*len;
-      const y2 = y - Math.sin(r)*len;
-      ctx.strokeStyle=color; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x2,y2); ctx.stroke();
-      ctx.fillStyle=color; ctx.fillText(label, x2+4, y2+4);
+    function drawVec(x,y,a,l,c,label){
+      const r=a*Math.PI/180,x2=x+Math.cos(r)*l,y2=y-Math.sin(r)*l;
+      ctx.strokeStyle=c;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x2,y2);ctx.stroke();
+      ctx.fillStyle=c;ctx.fillText(label,x2+4,y2+4);
     }
 
     function recalc(){
-      const angle = Number(document.getElementById('angle').value);
-      const force = Number(document.getElementById('force').value);
+      const angle=Number(document.getElementById('angle').value);
+      const force=Number(document.getElementById('force').value);
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle='#9fb0ff'; ctx.font='16px sans-serif';
-      const cx=180, cy=180;
-      drawVec(cx,cy,20,90,'#ff7f7f','Market friction');
-      drawVec(cx,cy,160,70,'#ffd166','Resource friction');
-      drawVec(cx,cy,300,60,'#f497ff','Policy friction');
-      drawVec(cx,cy,angle,force*1.6,'#5dd39e','Your strategy');
-      const fit = 100 - Math.min(100, Math.abs(angle-240));
-      out.textContent = `Signal: Strategy heading ${angle}° with force ${force}. Estimated vacuum-fit score: ${fit}/100. Better fit = less resistance and faster execution.`;
+      ctx.fillStyle='#a8b9ff'; ctx.font='16px sans-serif';
+      const cx=220,cy=190;
+      drawVec(cx,cy,20,110,'#ff7d7d','Market friction');
+      drawVec(cx,cy,145,90,'#ffd166','Resource friction');
+      drawVec(cx,cy,300,70,'#c792ff','Policy friction');
+      drawVec(cx,cy,angle,force*1.7,'#52d39b','Your strategy');
+      const vacuum=240;
+      const raw=Math.abs(((angle-vacuum+540)%360)-180);
+      const fit=Math.max(0,100-Math.round(raw*1.8));
+      state.fit=fit;
+      if(fit>=70) state.lessons=Math.max(state.lessons,3);
+      out.textContent=`Angle ${angle}°, force ${force}. Vacuum-fit score: ${fit}/100. Higher fit = smoother path.`;
+      save(); renderKpis();
     }
 
-    document.getElementById('recalc').onclick = recalc;
+    document.getElementById('recalc').onclick=recalc;
+    document.querySelectorAll('.complete').forEach(btn=>btn.onclick=()=>{ state.lessons += 1; save(); renderKpis(); btn.textContent='Completed'; btn.disabled=true; });
+
     recalc();
+    renderKpis();
   </script>
 </body>
 </html>
